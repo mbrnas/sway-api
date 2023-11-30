@@ -1,6 +1,7 @@
 package com.company.blogplatform.service.posts;
 
 import com.company.blogplatform.exception.CategoryNotFoundException;
+import com.company.blogplatform.exception.PostNotFoundException;
 import com.company.blogplatform.exception.UserNotFoundException;
 import com.company.blogplatform.model.categories.Category;
 import com.company.blogplatform.model.posts.Post;
@@ -33,4 +34,21 @@ public class PostService {
 
         return postRepository.save(post);
     }
+
+    public Post updatePost(Long postId, Post postDetails, Long userId, Long categoryId) throws PostNotFoundException {
+        Post existingPost = postRepository.findById(postId)
+                .orElseThrow(() -> new PostNotFoundException("Post by id " + postId + " was not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User by id " + userId + " was not found"));
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("Category by id " + categoryId + " was not found"));
+
+        existingPost.setTitle(postDetails.getTitle());
+        existingPost.setContent(postDetails.getContent());
+        existingPost.setUser(user);
+        existingPost.setCategory(category);
+
+        return postRepository.save(existingPost);
+    }
+
 }

@@ -1,5 +1,8 @@
 package com.company.blogplatform.controller.posts;
 
+import com.company.blogplatform.exception.CategoryNotFoundException;
+import com.company.blogplatform.exception.PostNotFoundException;
+import com.company.blogplatform.exception.UserNotFoundException;
 import com.company.blogplatform.model.posts.Post;
 import com.company.blogplatform.service.posts.PostService;
 import org.springframework.http.HttpStatus;
@@ -20,4 +23,15 @@ public class PostController {
         Post createdPost = postService.addPost(post, userId, categoryId);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
     }
+
+    @PutMapping("/update-post/{postId}")
+    public ResponseEntity<Post> updatePost(@RequestBody Post post, @PathVariable Long postId, @RequestParam Long userId, @RequestParam Long categoryId) {
+        try {
+            Post updatedPost = postService.updatePost(postId, post, userId, categoryId);
+            return new ResponseEntity<>(updatedPost, HttpStatus.OK);
+        } catch (PostNotFoundException | UserNotFoundException | CategoryNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
