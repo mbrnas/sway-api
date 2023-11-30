@@ -77,4 +77,13 @@ public class PostService {
         return postRepository.save(existingPost);
     }
 
+    public void deletePost(Long postId) throws PostNotFoundException {
+        Post existingPost = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException("Post by id " + postId + " was not found"));
+        if (postRepository.findById(postId).isEmpty()) {
+            throw new PostNotFoundException("Post by id " + postId + " was not found");
+        } else {
+            postRepository.delete(existingPost);
+        }
+    }
+
 }
