@@ -11,6 +11,8 @@ import com.company.blogplatform.repository.posts.PostRepository;
 import com.company.blogplatform.repository.users.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostService {
     private final PostRepository postRepository;
@@ -22,6 +24,30 @@ public class PostService {
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
     }
+
+    public List<Post> getAllPosts() throws PostNotFoundException {
+        if (postRepository.findAll().isEmpty()) {
+            throw new PostNotFoundException("There are no posts to show!");
+        } else {
+            return postRepository.findAll();
+        }
+    }
+
+    public Post getPostById(Long id) throws PostNotFoundException {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new PostNotFoundException("Post by id " + id + " was not found"));
+    }
+
+
+    public List<Post> getPostsByUserId(Long userId) {
+        List<Post> posts = postRepository.findByUserId(userId);
+        if (posts.isEmpty()) {
+            throw new UserNotFoundException("User and his/hers posts by id " + userId + " were not found");
+        } else {
+            return posts;
+        }
+    }
+
 
     public Post addPost(Post post, Long userId, Long categoryId) {
         User user = userRepository.findById(userId)
