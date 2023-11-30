@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/posts")
 public class PostController {
@@ -17,6 +19,37 @@ public class PostController {
     public PostController(PostService postService) {
         this.postService = postService;
     }
+
+    @GetMapping("/all-posts")
+    public ResponseEntity<List<Post>> getAllPosts() {
+        try {
+            List<Post> posts = postService.getAllPosts();
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        } catch (PostNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<Post> getPostById(@PathVariable Long postId) {
+        try {
+            Post post = postService.getPostById(postId);
+            return new ResponseEntity<>(post, HttpStatus.OK);
+        } catch (PostNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/posts-by-user/{userId}")
+    public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Long userId) {
+        try {
+            List<Post> posts = postService.getPostsByUserId(userId);
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @PostMapping("/create-post/{userId}/{categoryId}")
     public ResponseEntity<Post> createPost(@RequestBody Post post, @PathVariable Long userId, @PathVariable Long categoryId) {
@@ -33,5 +66,6 @@ public class PostController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 
 }
