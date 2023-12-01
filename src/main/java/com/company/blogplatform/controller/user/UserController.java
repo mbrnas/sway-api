@@ -1,7 +1,7 @@
-package com.company.blogplatform.controller.posts;
+package com.company.blogplatform.controller.user;
 
 import com.company.blogplatform.model.users.User;
-import com.company.blogplatform.service.posts.UserService;
+import com.company.blogplatform.service.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class UserController {
             @RequestParam(defaultValue = "0") Integer pageNumber,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(required = false) String sort) {
-        return userService.getAllEmployees(pageNumber, pageSize, sort);
+        return userService.getAllUsers(pageNumber, pageSize, sort);
     }
 
     @PostMapping("/create-user")
@@ -45,14 +45,14 @@ public class UserController {
     }
 
     @PutMapping("/update-user/{userId}")
-    public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable Long userId) {
-        if (user == null) {
+    public ResponseEntity<User> updateUser(@RequestBody User user, @RequestParam Long userId) {
+        if (user == null || userId <= 0) {
             throw new IllegalArgumentException("Invalid user data");
-        } else {
-            User updatedUser = userService.updateUser(user);
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         }
+        User updatedUser = userService.updateUser(user, userId);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
+
 
     @DeleteMapping("/delete-user/{userId}")
     public ResponseEntity<User> deleteUser(@PathVariable Long userId) {

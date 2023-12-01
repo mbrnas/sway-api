@@ -1,4 +1,4 @@
-package com.company.blogplatform.service.posts;
+package com.company.blogplatform.service.post;
 
 import com.company.blogplatform.exception.CategoryNotFoundException;
 import com.company.blogplatform.exception.PostNotFoundException;
@@ -9,6 +9,10 @@ import com.company.blogplatform.model.users.User;
 import com.company.blogplatform.repository.categories.CategoryRepository;
 import com.company.blogplatform.repository.posts.PostRepository;
 import com.company.blogplatform.repository.users.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,13 +29,16 @@ public class PostService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Post> getAllPosts() throws PostNotFoundException {
-        if (postRepository.findAll().isEmpty()) {
-            throw new PostNotFoundException("There are no posts to show!");
+    public Page<Post> getAllPosts(Integer pageNumber, Integer pageSize, String sort) {
+        Pageable pageable;
+        if (sort != null) {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, sort);
         } else {
-            return postRepository.findAll();
+            pageable = PageRequest.of(pageNumber, pageSize);
         }
+        return postRepository.findAll(pageable);
     }
+
 
     public Post getPostById(Long id) throws PostNotFoundException {
         return postRepository.findById(id)

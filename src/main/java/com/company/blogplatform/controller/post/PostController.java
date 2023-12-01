@@ -1,10 +1,11 @@
-package com.company.blogplatform.controller.posts;
+package com.company.blogplatform.controller.post;
 
 import com.company.blogplatform.exception.CategoryNotFoundException;
 import com.company.blogplatform.exception.PostNotFoundException;
 import com.company.blogplatform.exception.UserNotFoundException;
 import com.company.blogplatform.model.posts.Post;
-import com.company.blogplatform.service.posts.PostService;
+import com.company.blogplatform.service.post.PostService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,14 +22,13 @@ public class PostController {
     }
 
     @GetMapping("/all-posts")
-    public ResponseEntity<List<Post>> getAllPosts() {
-        try {
-            List<Post> posts = postService.getAllPosts();
-            return new ResponseEntity<>(posts, HttpStatus.OK);
-        } catch (PostNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public Page<Post> getAllPosts(
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(required = false) String sort) {
+        return postService.getAllPosts(pageNumber, pageSize, sort);
     }
+
 
     @GetMapping("/post/{postId}")
     public ResponseEntity<Post> getPostById(@PathVariable Long postId) {

@@ -1,4 +1,4 @@
-package com.company.blogplatform.service.posts;
+package com.company.blogplatform.service.user;
 
 import com.company.blogplatform.exception.UserNotFoundException;
 import com.company.blogplatform.model.users.User;
@@ -17,7 +17,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Page<User> getAllEmployees(Integer pageNumber, Integer pageSize, String sort) {
+    public Page<User> getAllUsers(Integer pageNumber, Integer pageSize, String sort) {
         Pageable pageable = null;
         if (sort != null) {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, sort);
@@ -42,12 +42,19 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(User user) {
-        if (user == null) {
+    public User updateUser(User user, Long userId) {
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User by id " + userId + " was not found"));
+        if (existingUser == null || userId <= 0) {
             throw new IllegalArgumentException("Invalid user data");
+        } else {
+            existingUser.setUsername(user.getUsername());
+            existingUser.setPassword(user.getPassword());
+            existingUser.setEmail(user.getEmail());
+            return userRepository.save(existingUser);
         }
-        return userRepository.save(user);
     }
+
 
     public void deleteUser(Long id) {
         if (id == null || id <= 0) {
