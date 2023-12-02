@@ -14,11 +14,33 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/posts")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PostController {
     private final PostService postService;
 
     public PostController(PostService postService) {
         this.postService = postService;
+    }
+
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<Post> likePost(@PathVariable Long postId) {
+        try {
+            postService.likePost(postId);
+            return ResponseEntity.ok().body(postService.getPostById(postId));
+        } catch (PostNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Endpoint to dislike a post
+    @PostMapping("/{postId}/dislike")
+    public ResponseEntity<Post> dislikePost(@PathVariable Long postId) {
+        try {
+            postService.dislikePost(postId);
+            return ResponseEntity.ok().body(postService.getPostById(postId));
+        } catch (PostNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/all-posts")

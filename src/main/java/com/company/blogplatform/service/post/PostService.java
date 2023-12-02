@@ -29,6 +29,20 @@ public class PostService {
         this.categoryRepository = categoryRepository;
     }
 
+    public void likePost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        post.setLikes(post.getLikes() + 1);
+        postRepository.save(post);
+    }
+
+    public void dislikePost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        post.setDislikes(post.getDislikes() + 1);
+        postRepository.save(post);
+    }
+
     public Page<Post> getAllPosts(Integer pageNumber, Integer pageSize, String sort) {
         Pageable pageable;
         if (sort != null) {

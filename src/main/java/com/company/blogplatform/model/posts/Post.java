@@ -25,6 +25,8 @@ public class Post {
     private String title;
     private String content;
     private LocalDate datePosted = LocalDate.now();
+    private int likes;
+    private int dislikes;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
