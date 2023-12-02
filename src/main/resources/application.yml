@@ -12,7 +12,4 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
-  rsa:
-    private-key: classpath:certs/private-key.pem
-    public-key: classpath:certs/public-key.pem
 
