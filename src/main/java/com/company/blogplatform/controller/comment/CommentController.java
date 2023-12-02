@@ -22,13 +22,13 @@ public class CommentController {
         return commentService.getAllComments(pageNumber, pageSize, sort);
     }
 
-    @GetMapping("/comment-by-id")
-    public Comment getCommentById(@RequestParam Long commentId) {
+    @GetMapping("/comment/{commentId}")
+    public Comment getCommentById(@PathVariable Long commentId) {
         return commentService.getCommentById(commentId);
     }
 
-    @GetMapping("/comments-by-post-id")
-    public Page<Comment> getCommentsByPostId(@RequestParam Long postId,
+    @GetMapping("/{postId}")
+    public Page<Comment> getCommentsByPostId(@PathVariable Long postId,
                                              @RequestParam(defaultValue = "0") Integer pageNumber,
                                              @RequestParam(defaultValue = "10") Integer pageSize,
                                              @RequestParam(defaultValue = "id") String sort) {
@@ -47,12 +47,12 @@ public class CommentController {
                                  @RequestBody Comment comment,
                                  @RequestParam Long userId,
                                  @RequestParam Long postId) throws PostNotFoundException {
-        return commentService.updateComment(comment, commentId, postId, userId);
+        return commentService.updateComment(commentId, comment, userId, postId);
     }
 
 
-    @DeleteMapping("/delete-comment")
-    public void deleteComment(@RequestParam Long commentId) {
+    @DeleteMapping("/delete-comment/{commentId}")
+    public void deleteComment(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);
     }
 

@@ -63,7 +63,7 @@ public class CommentService {
     }
 
 
-    public Comment addComment(Comment comment, Long postId, Long userId) throws PostNotFoundException {
+    public Comment addComment(Comment comment, Long userId, Long postId) throws PostNotFoundException {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post by id " + postId + " was not found"));
         User user = userRepository.findById(userId)
@@ -77,7 +77,7 @@ public class CommentService {
     }
 
 
-    public Comment updateComment(Comment comment, Long commentId, Long postId, Long userId) throws PostNotFoundException {
+    public Comment updateComment(Long commentId, Comment comment, Long userId, Long postId) throws PostNotFoundException {
         if (commentId == null || commentId <= 0) {
             throw new IllegalArgumentException("Invalid comment id");
         }
