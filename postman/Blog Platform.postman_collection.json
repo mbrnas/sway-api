@@ -1,0 +1,508 @@
+{
+  "info": {
+    "_postman_id": "f21b6d5e-69e4-4708-b996-90d2dbf2cfa7",
+    "name": "Blog Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "24295379"
+  },
+  "item": [
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "All Posts",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "5699470e-3046-4622-b76c-492093cd5ddf",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "user",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{basePathPosts}}/all-posts?pageNumber=0&pageSize=10",
+              "host": [
+                "{{basePathPosts}}"
+              ],
+              "path": [
+                "all-posts"
+              ],
+              "query": [
+                {
+                  "key": "pageNumber",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "A Post",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{basePathPosts}}/post/1",
+              "host": [
+                "{{basePathPosts}}"
+              ],
+              "path": [
+                "post",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Ruby's second post!\",\n  \"content\": \"I would like to travel to Paris.\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{basePathPosts}}/create-post/20/3",
+              "host": [
+                "{{basePathPosts}}"
+              ],
+              "path": [
+                "create-post",
+                "20",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Blog Post Title\",\n  \"content\": \"I am not feeling good today\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{basePathPosts}}/update-post/2?userId=2&categoryId=3",
+              "host": [
+                "{{basePathPosts}}"
+              ],
+              "path": [
+                "update-post",
+                "2"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "2"
+                },
+                {
+                  "key": "categoryId",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Blog Post Title\",\n  \"content\": \"I am not feeling good today\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{basePathPosts}}/delete-post/3",
+              "host": [
+                "{{basePathPosts}}"
+              ],
+              "path": [
+                "delete-post",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{basePathUsers}}/all?pageNumber=0&pageSize=5",
+              "host": [
+                "{{basePathUsers}}"
+              ],
+              "path": [
+                "all"
+              ],
+              "query": [
+                {
+                  "key": "pageNumber",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "A User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{basePathUsers}}/user/5",
+              "host": [
+                "{{basePathUsers}}"
+              ],
+              "path": [
+                "user",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"kiki100\",\n    \"password\": \"kikicarica\",\n    \"email\": \"kiki@gmail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{basePathUsers}}/create-user",
+              "host": [
+                "{{basePathUsers}}"
+              ],
+              "path": [
+                "create-user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"matijadoktor\",\n    \"password\": \"matijacar\",\n    \"email\": \"matija@gmail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{basePathUsers}}/update-user/1?userId=1",
+              "host": [
+                "{{basePathUsers}}"
+              ],
+              "path": [
+                "update-user",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"matijadoktor\",\n    \"password\": \"matijacar\",\n    \"email\": \"matija@gmail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{basePathUsers}}/delete-user/53",
+              "host": [
+                "{{basePathUsers}}"
+              ],
+              "path": [
+                "delete-user",
+                "53"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "All Comments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{basePathComments}}/all-comments?pageNumber=0&pageSize=10",
+              "host": [
+                "{{basePathComments}}"
+              ],
+              "path": [
+                "all-comments"
+              ],
+              "query": [
+                {
+                  "key": "pageNumber",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "A Comment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{basePathComments}}/comment/2",
+              "host": [
+                "{{basePathComments}}"
+              ],
+              "path": [
+                "comment",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Comments by Post",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{basePathComments}}/5?pageNumber=0&pageSize=10",
+              "host": [
+                "{{basePathComments}}"
+              ],
+              "path": [
+                "5"
+              ],
+              "query": [
+                {
+                  "key": "pageNumber",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Comment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"It's getting tense\",\n  \"dateCommented\": \"2023-12-02T00:00:00.000+00:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{basePathComments}}/add-comment?userId=7&postId=5",
+              "host": [
+                "{{basePathComments}}"
+              ],
+              "path": [
+                "add-comment"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "7"
+                },
+                {
+                  "key": "postId",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Comment Copy",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"It's getting MORE tense\",\n  \"dateCommented\": \"2023-12-02T00:00:00.000+00:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{basePathComments}}/update-comment/5?userId=7&postId=5",
+              "host": [
+                "{{basePathComments}}"
+              ],
+              "path": [
+                "update-comment",
+                "5"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "7"
+                },
+                {
+                  "key": "postId",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{basePathComments}}/delete-comment/5",
+              "host": [
+                "{{basePathComments}}"
+              ],
+              "path": [
+                "delete-comment",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "basePathPosts",
+      "value": "http://localhost:8080/api/v1/posts",
+      "type": "string"
+    },
+    {
+      "key": "basePathUsers",
+      "value": "http://localhost:8080/api/v1/users",
+      "type": "string"
+    },
+    {
+      "key": "basePathComments",
+      "value": "http://localhost:8080/api/v1/comments",
+      "type": "string"
+    }
+  ]
+}
