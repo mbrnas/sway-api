@@ -4,9 +4,7 @@ import com.company.blogplatform.model.categories.Category;
 import com.company.blogplatform.model.comments.Comment;
 import com.company.blogplatform.model.users.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -15,6 +13,8 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "posts")
 public class Post {

@@ -32,7 +32,6 @@ public class PostController {
         }
     }
 
-    // Endpoint to dislike a post
     @PostMapping("/{postId}/dislike")
     public ResponseEntity<Post> dislikePost(@PathVariable Long postId) {
         try {
