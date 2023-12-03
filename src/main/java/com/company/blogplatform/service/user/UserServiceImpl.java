@@ -3,7 +3,6 @@ package com.company.blogplatform.service.user;
 import com.company.blogplatform.exception.UserNotFoundException;
 import com.company.blogplatform.model.users.User;
 import com.company.blogplatform.repository.users.UserRepository;
-import com.company.blogplatform.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
