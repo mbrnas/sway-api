@@ -1,7 +1,7 @@
 package com.company.blogplatform.controller.user;
 
 import com.company.blogplatform.model.users.User;
-import com.company.blogplatform.service.user.UserService;
+import com.company.blogplatform.service.user.UserServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
