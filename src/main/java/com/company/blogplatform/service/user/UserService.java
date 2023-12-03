@@ -1,4 +1,4 @@
-package com.company.blogplatform.service;
+package com.company.blogplatform.service.user;
 
 import com.company.blogplatform.exception.UserNotFoundException;
 import com.company.blogplatform.model.users.User;

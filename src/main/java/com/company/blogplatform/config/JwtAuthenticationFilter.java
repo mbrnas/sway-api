@@ -1,7 +1,7 @@
 package com.company.blogplatform.config;
 
 import com.company.blogplatform.jwtservice.JWTService;
-import com.company.blogplatform.service.UserService;
+import com.company.blogplatform.service.user.UserService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
