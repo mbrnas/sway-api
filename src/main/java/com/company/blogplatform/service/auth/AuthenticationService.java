@@ -1,4 +1,4 @@
-package com.company.blogplatform.service;
+package com.company.blogplatform.service.auth;
 
 import com.company.blogplatform.dto.JwtAuthenticationResponse;
 import com.company.blogplatform.dto.RefreshTokenRequest;

@@ -5,7 +5,7 @@ import com.company.blogplatform.dto.RefreshTokenRequest;
 import com.company.blogplatform.dto.SignInRequest;
 import com.company.blogplatform.dto.SignupRequest;
 import com.company.blogplatform.model.users.User;
-import com.company.blogplatform.service.AuthenticationService;
+import com.company.blogplatform.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
