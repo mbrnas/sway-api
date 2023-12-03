@@ -23,12 +23,7 @@ public class UserServiceImpl implements UserService {
 
     public UserDetailsService userDetailsService() {
         UserServiceImpl self = this;
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return self.loadUserByUsername(username);
-            }
-        };
+        return self::loadUserByUsername;
     }
 
     @Override
