@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/admin")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     private final UserServiceImpl userService;
@@ -17,7 +17,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/users/user/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long userId) {
         if (userId == null || userId <= 0) {
             throw new IllegalArgumentException("Invalid user id");
@@ -27,7 +27,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping("/users")
     public Page<User> getAllUsers(
             @RequestParam(defaultValue = "0") Integer pageNumber,
             @RequestParam(defaultValue = "10") Integer pageSize,

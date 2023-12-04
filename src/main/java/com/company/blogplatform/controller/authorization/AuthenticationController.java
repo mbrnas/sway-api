@@ -1,4 +1,4 @@
-package com.company.blogplatform.controller;
+package com.company.blogplatform.controller.authorization;
 
 import com.company.blogplatform.dto.JwtAuthenticationResponse;
 import com.company.blogplatform.dto.RefreshTokenRequest;

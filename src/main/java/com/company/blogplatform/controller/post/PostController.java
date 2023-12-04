@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/posts")
+@RequestMapping("/api/v1/user")
 @CrossOrigin(origins = "http://localhost:3000")
 public class PostController {
     private final PostService postService;
@@ -22,7 +22,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping("/{postId}/like")
+    @PostMapping("/posts/{postId}/like")
     public ResponseEntity<Post> likePost(@PathVariable Long postId) {
         try {
             postService.likePost(postId);
@@ -32,7 +32,7 @@ public class PostController {
         }
     }
 
-    @PostMapping("/{postId}/dislike")
+    @PostMapping("/posts/{postId}/dislike")
     public ResponseEntity<Post> dislikePost(@PathVariable Long postId) {
         try {
             postService.dislikePost(postId);
@@ -42,7 +42,7 @@ public class PostController {
         }
     }
 
-    @GetMapping("/all-posts")
+    @GetMapping("/posts/all-posts")
     public Page<Post> getAllPosts(
             @RequestParam(defaultValue = "0") Integer pageNumber,
             @RequestParam(defaultValue = "10") Integer pageSize,
@@ -51,7 +51,7 @@ public class PostController {
     }
 
 
-    @GetMapping("/post/{postId}")
+    @GetMapping("/posts/post/{postId}")
     public ResponseEntity<Post> getPostById(@PathVariable Long postId) {
         try {
             Post post = postService.getPostById(postId);
@@ -61,7 +61,7 @@ public class PostController {
         }
     }
 
-    @GetMapping("/posts-by-user/{userId}")
+    @GetMapping("/posts/posts-by-user/{userId}")
     public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Long userId) {
         try {
             List<Post> posts = postService.getPostsByUserId(userId);
@@ -72,13 +72,13 @@ public class PostController {
     }
 
 
-    @PostMapping("/create-post/{userId}/{categoryId}")
+    @PostMapping("/posts/create-post/{userId}/{categoryId}")
     public ResponseEntity<Post> createPost(@RequestBody Post post, @PathVariable Long userId, @PathVariable Long categoryId) {
         Post createdPost = postService.addPost(post, userId, categoryId);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update-post/{postId}")
+    @PutMapping("/posts/update-post/{postId}")
     public ResponseEntity<Post> updatePost(@RequestBody Post post, @PathVariable Long postId, @RequestParam Long userId, @RequestParam Long categoryId) {
         try {
             Post updatedPost = postService.updatePost(postId, post, userId, categoryId);
@@ -88,7 +88,7 @@ public class PostController {
         }
     }
 
-    @DeleteMapping("/delete-post/{postId}")
+    @DeleteMapping("/posts/delete-post/{postId}")
     public ResponseEntity<Post> deletePost(@PathVariable Long postId) {
         try {
             postService.deletePost(postId);
