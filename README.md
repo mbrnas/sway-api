@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Blog Platform is a Java-based web application designed for creating, updating, and managing blog posts. It leverages Spring Boot for its framework, JPA/Hibernate for ORM, and MySQL for database management.
+The Blog Platform is a Java-based web application designed for creating, updating, and managing blog posts. It leverages Spring Boot for its framework, JPA/Hibernate for ORM, and PostgreSQL for database management.
 
 ## Key Components
 
@@ -29,15 +29,15 @@ The Blog Platform is a Java-based web application designed for creating, updatin
    - Custom exceptions like [PostNotFoundException](https://github.com/mbrnas/blog-platform/blob/main/src/main/java/com/company/blogplatform/exception/PostNotFoundException.java) for handling specific error scenarios.
 
 ### 7. Configuration
-   - [application.properties](https://github.com/mbrnas/blog-platform/blob/main/src/main/resources/application.properties): Configuration for database and JPA/Hibernate.
+   - [application.yml](https://github.com/mbrnas/blog-platform/blob/main/src/main/resources/application.yml): Configuration for database and JPA/Hibernate.
 
 ### 8. Tests
    - [BlogPlatformApplicationTests](https://github.com/mbrnas/blog-platform/blob/main/src/test/java/com/company/blogplatform/BlogPlatformApplicationTests.java): Basic context loading test for the application.
 
 ## Running the Application
 
-1. **Prerequisites**: Java and MySQL installed.
-2. **Database Setup**: Configure MySQL database as per `application.properties`.
+1. **Prerequisites**: Java and PostgreSQL installed.
+2. **Database Setup**: Configure PostgreSQL database as per `application.yml`.
 3. **Running the App**: Execute `BlogPlatformApplication.java` to start the application.
 
 ## API Endpoints
