@@ -4,23 +4,20 @@ import com.company.blogplatform.dto.JwtAuthenticationResponse;
 import com.company.blogplatform.dto.RefreshTokenRequest;
 import com.company.blogplatform.dto.SignInRequest;
 import com.company.blogplatform.dto.SignupRequest;
-import com.company.blogplatform.model.users.User;
 import com.company.blogplatform.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public ResponseEntity<User> signup(@RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody SignupRequest signupRequest) {
         return ResponseEntity.ok(authenticationService.signup(signupRequest));
     }
 

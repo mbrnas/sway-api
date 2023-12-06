@@ -26,7 +26,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JWTService jwtService;
 
 
-    public User signup(SignupRequest signupRequest) {
+    public JwtAuthenticationResponse signup(SignupRequest signupRequest) {
         User user = new User();
         user.setUsername(signupRequest.getUsername());
         user.setFirstName(signupRequest.getFirstName());
@@ -34,8 +34,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setEmail(signupRequest.getEmail());
         user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         user.setRole(Role.USER);
-        user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        // Generate JWT and Refresh Tokens
+        String jwtToken = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
+
+        // Set tokens in the response
+        JwtAuthenticationResponse jwtResponse = new JwtAuthenticationResponse();
+        jwtResponse.setToken(jwtToken);
+        jwtResponse.setRefreshToken(refreshToken);
+
+        return jwtResponse;
     }
 
     public JwtAuthenticationResponse signIn(SignInRequest signInRequest) {
