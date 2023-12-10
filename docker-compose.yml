@@ -1,21 +1,31 @@
 version: '3.8'
 services:
-  app:
-    build: .
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: blog_platform
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     ports:
-      - "8080:8080"
+      - "5432:5432"
+
+  backend:
+    build: .
+    restart: always
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5434/blog_platform
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=matijalaki
-
-  db:
-    image: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/blog_platform
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: mypassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: 'true'
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
     ports:
-      - "5434:5432"
-    environment:
-      POSTGRES_DB: blog_platform
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: matijalaki
+      - "8080:8080"
+
+volumes:
+  pgdata:
