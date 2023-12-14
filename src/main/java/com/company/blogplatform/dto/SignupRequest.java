@@ -2,6 +2,7 @@ package com.company.blogplatform.dto;
 
 import lombok.Data;
 
+
 @Data
 public class SignupRequest {
     private String firstName;

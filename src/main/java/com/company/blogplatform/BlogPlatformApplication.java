@@ -25,6 +25,7 @@ public class BlogPlatformApplication implements CommandLineRunner {
             user.setUsername("admin");
             user.setFirstName("Matija");
             user.setLastName("Brnas");
+            user.setEmail("admin@code-chronicles.com");
             user.setRole(Role.ADMIN);
             user.setPassword(new BCryptPasswordEncoder().encode("admin"));
             userRepository.save(user);
