@@ -5,6 +5,8 @@ import com.company.blogplatform.exception.PostNotFoundException;
 import com.company.blogplatform.exception.UserNotFoundException;
 import com.company.blogplatform.model.posts.Post;
 import com.company.blogplatform.service.post.PostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/user")
 @CrossOrigin(origins = "http://localhost:3000")
+@Tag(name = "Posts", description = "The Posts API")
 public class PostController {
     private final PostService postService;
 
@@ -22,6 +25,7 @@ public class PostController {
         this.postService = postService;
     }
 
+    @Operation(summary = "Like Post", description = "Likes a post by its ID")
     @PostMapping("/posts/{postId}/like")
     public ResponseEntity<Post> likePost(@PathVariable Long postId) {
         try {
@@ -32,6 +36,7 @@ public class PostController {
         }
     }
 
+    @Operation(summary = "Dislike Post", description = "Dislikes a post by its ID")
     @PostMapping("/posts/{postId}/dislike")
     public ResponseEntity<Post> dislikePost(@PathVariable Long postId) {
         try {
@@ -42,6 +47,7 @@ public class PostController {
         }
     }
 
+    @Operation(summary = "Get All Posts", description = "Retrieves all posts with pagination")
     @GetMapping("/posts/all-posts")
     public Page<Post> getAllPosts(
             @RequestParam(defaultValue = "0") Integer pageNumber,
@@ -50,7 +56,7 @@ public class PostController {
         return postService.getAllPosts(pageNumber, pageSize, sort);
     }
 
-
+    @Operation(summary = "Get Post By ID", description = "Retrieves a post by its ID")
     @GetMapping("/posts/post/{postId}")
     public ResponseEntity<Post> getPostById(@PathVariable Long postId) {
         try {
@@ -61,6 +67,7 @@ public class PostController {
         }
     }
 
+    @Operation(summary = "Get Posts By User ID", description = "Retrieves all posts made by a specific user")
     @GetMapping("/posts/posts-by-user/{userId}")
     public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Long userId) {
         try {
@@ -71,13 +78,14 @@ public class PostController {
         }
     }
 
-
+    @Operation(summary = "Create Post", description = "Creates a new post")
     @PostMapping("/posts/create-post/{userId}/{categoryId}")
     public ResponseEntity<Post> createPost(@RequestBody Post post, @PathVariable Long userId, @PathVariable Long categoryId) {
         Post createdPost = postService.addPost(post, userId, categoryId);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Update Post", description = "Updates an existing post")
     @PutMapping("/posts/update-post/{postId}")
     public ResponseEntity<Post> updatePost(@RequestBody Post post, @PathVariable Long postId, @RequestParam Long userId, @RequestParam Long categoryId) {
         try {
@@ -88,6 +96,7 @@ public class PostController {
         }
     }
 
+    @Operation(summary = "Delete Post", description = "Deletes a post by its ID")
     @DeleteMapping("/posts/delete-post/{postId}")
     public ResponseEntity<Post> deletePost(@PathVariable Long postId) {
         try {
