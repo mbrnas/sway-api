@@ -1,5 +1,7 @@
 package com.company.blogplatform.service.post;
 
+import com.company.blogplatform.dto.response.PostResponse;
+import com.company.blogplatform.dto.response.UserResponse;
 import com.company.blogplatform.exception.CategoryNotFoundException;
 import com.company.blogplatform.exception.PostNotFoundException;
 import com.company.blogplatform.exception.UserNotFoundException;
@@ -9,6 +11,7 @@ import com.company.blogplatform.model.users.User;
 import com.company.blogplatform.repository.categories.CategoryRepository;
 import com.company.blogplatform.repository.posts.PostRepository;
 import com.company.blogplatform.repository.users.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,11 +25,13 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private ModelMapper modelMapper;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, CategoryRepository categoryRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, CategoryRepository categoryRepository, ModelMapper modelMapper) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
     }
 
     public void likePost(Long postId) {
@@ -43,20 +48,33 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public Page<Post> getAllPosts(Integer pageNumber, Integer pageSize, String sort) {
+    public Page<PostResponse> getAllPosts(Integer pageNumber, Integer pageSize, String sort) {
         Pageable pageable;
-        if (sort != null) {
+        if (sort != null && !sort.trim().isEmpty()) {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, sort);
         } else {
             pageable = PageRequest.of(pageNumber, pageSize);
         }
-        return postRepository.findAll(pageable);
+        Page<Post> posts = postRepository.findAll(pageable);
+        return posts.map(post -> {
+            PostResponse postResponse = modelMapper.map(post, PostResponse.class);
+            UserResponse userResponse = modelMapper.map(post.getUser(), UserResponse.class);
+            postResponse.setUser(userResponse);
+            postResponse.setCategoryName(post.getCategory().getName());
+            return postResponse;
+        });
     }
 
 
-    public Post getPostById(Long id) throws PostNotFoundException {
-        return postRepository.findById(id)
+    public PostResponse getPostById(Long id) throws PostNotFoundException {
+        Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException("Post by id " + id + " was not found"));
+
+        PostResponse postResponse = modelMapper.map(post, PostResponse.class);
+        UserResponse userResponse = modelMapper.map(post.getUser(), UserResponse.class);
+        postResponse.setUser(userResponse);
+        postResponse.setCategoryName(post.getCategory().getName());
+        return postResponse;
     }
 
 

@@ -1,5 +1,6 @@
 package com.company.blogplatform.controller.post;
 
+import com.company.blogplatform.dto.response.PostResponse;
 import com.company.blogplatform.exception.CategoryNotFoundException;
 import com.company.blogplatform.exception.PostNotFoundException;
 import com.company.blogplatform.exception.UserNotFoundException;
@@ -27,7 +28,7 @@ public class PostController {
 
     @Operation(summary = "Like Post", description = "Likes a post by its ID")
     @PostMapping("/posts/{postId}/like")
-    public ResponseEntity<Post> likePost(@PathVariable Long postId) {
+    public ResponseEntity<PostResponse> likePost(@PathVariable Long postId) {
         try {
             postService.likePost(postId);
             return ResponseEntity.ok().body(postService.getPostById(postId));
@@ -38,7 +39,7 @@ public class PostController {
 
     @Operation(summary = "Dislike Post", description = "Dislikes a post by its ID")
     @PostMapping("/posts/{postId}/dislike")
-    public ResponseEntity<Post> dislikePost(@PathVariable Long postId) {
+    public ResponseEntity<PostResponse> dislikePost(@PathVariable Long postId) {
         try {
             postService.dislikePost(postId);
             return ResponseEntity.ok().body(postService.getPostById(postId));
@@ -49,7 +50,7 @@ public class PostController {
 
     @Operation(summary = "Get All Posts", description = "Retrieves all posts with pagination")
     @GetMapping("/posts/all-posts")
-    public Page<Post> getAllPosts(
+    public Page<PostResponse> getAllPosts(
             @RequestParam(defaultValue = "0") Integer pageNumber,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(required = false) String sort) {
@@ -58,9 +59,9 @@ public class PostController {
 
     @Operation(summary = "Get Post By ID", description = "Retrieves a post by its ID")
     @GetMapping("/posts/post/{postId}")
-    public ResponseEntity<Post> getPostById(@PathVariable Long postId) {
+    public ResponseEntity<PostResponse> getPostById(@PathVariable Long postId) {
         try {
-            Post post = postService.getPostById(postId);
+            PostResponse post = postService.getPostById(postId);
             return new ResponseEntity<>(post, HttpStatus.OK);
         } catch (PostNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
