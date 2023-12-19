@@ -4,6 +4,7 @@ import com.company.blogplatform.dto.request.RefreshTokenRequest;
 import com.company.blogplatform.dto.request.SignInRequest;
 import com.company.blogplatform.dto.request.SignupRequest;
 import com.company.blogplatform.dto.response.JwtAuthenticationResponse;
+import com.company.blogplatform.dto.response.UserResponse;
 import com.company.blogplatform.service.auth.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,7 +28,7 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "400", description = "Invalid request data")
     })
     @PostMapping("/signup")
-    public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<UserResponse> signup(@RequestBody SignupRequest signupRequest) {
         return ResponseEntity.ok(authenticationService.signup(signupRequest));
     }
 

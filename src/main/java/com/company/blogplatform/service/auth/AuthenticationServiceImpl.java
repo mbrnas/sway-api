@@ -4,12 +4,14 @@ import com.company.blogplatform.dto.request.RefreshTokenRequest;
 import com.company.blogplatform.dto.request.SignInRequest;
 import com.company.blogplatform.dto.request.SignupRequest;
 import com.company.blogplatform.dto.response.JwtAuthenticationResponse;
+import com.company.blogplatform.dto.response.UserResponse;
 import com.company.blogplatform.exception.UserNotFoundException;
 import com.company.blogplatform.jwtservice.JWTService;
 import com.company.blogplatform.model.role.Role;
 import com.company.blogplatform.model.users.User;
 import com.company.blogplatform.repository.users.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,9 +26,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
+    private final ModelMapper modelMapper;
 
 
-    public JwtAuthenticationResponse signup(SignupRequest signupRequest) {
+    public UserResponse signup(SignupRequest signupRequest) {
         User user = new User();
         user.setUsername(signupRequest.getUsername());
         user.setFirstName(signupRequest.getFirstName());
@@ -36,16 +39,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setRole(Role.USER);
         userRepository.save(user);
 
-        // Generate JWT and Refresh Tokens
-        String jwtToken = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
 
-        // Set tokens in the response
-        JwtAuthenticationResponse jwtResponse = new JwtAuthenticationResponse();
-        jwtResponse.setToken(jwtToken);
-        jwtResponse.setRefreshToken(refreshToken);
-
-        return jwtResponse;
+        UserResponse userResponse = new UserResponse();
+        userResponse.setEmail(user.getEmail());
+        userResponse.setUsername(user.getUsername());
+        return userResponse;
     }
 
     public JwtAuthenticationResponse signIn(SignInRequest signInRequest) {

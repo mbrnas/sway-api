@@ -4,9 +4,10 @@ import com.company.blogplatform.dto.request.RefreshTokenRequest;
 import com.company.blogplatform.dto.request.SignInRequest;
 import com.company.blogplatform.dto.request.SignupRequest;
 import com.company.blogplatform.dto.response.JwtAuthenticationResponse;
+import com.company.blogplatform.dto.response.UserResponse;
 
 public interface AuthenticationService {
-    JwtAuthenticationResponse signup(SignupRequest signupRequest);
+    UserResponse signup(SignupRequest signupRequest);
 
     JwtAuthenticationResponse signIn(SignInRequest signInRequest);
 
