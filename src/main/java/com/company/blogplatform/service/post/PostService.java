@@ -12,13 +12,11 @@ import com.company.blogplatform.repository.categories.CategoryRepository;
 import com.company.blogplatform.repository.posts.PostRepository;
 import com.company.blogplatform.repository.users.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -48,21 +46,16 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public Page<PostResponse> getAllPosts(Integer pageNumber, Integer pageSize, String sort) {
-        Pageable pageable;
+    public List<PostResponse> getAllPosts(String sort) {
+        List<Post> posts;
         if (sort != null && !sort.trim().isEmpty()) {
-            pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, sort);
+            posts = postRepository.findAll(Sort.by(Sort.Direction.ASC, sort));
         } else {
-            pageable = PageRequest.of(pageNumber, pageSize);
+            posts = postRepository.findAll();
         }
-        Page<Post> posts = postRepository.findAll(pageable);
-        return posts.map(post -> {
-            PostResponse postResponse = modelMapper.map(post, PostResponse.class);
-            UserResponse userResponse = modelMapper.map(post.getUser(), UserResponse.class);
-            postResponse.setUser(userResponse);
-            postResponse.setCategoryName(post.getCategory().getName());
-            return postResponse;
-        });
+        return posts.stream()
+                .map(post -> modelMapper.map(post, PostResponse.class))
+                .collect(Collectors.toList());
     }
 
 

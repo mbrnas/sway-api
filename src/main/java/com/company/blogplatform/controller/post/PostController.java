@@ -8,7 +8,6 @@ import com.company.blogplatform.model.posts.Post;
 import com.company.blogplatform.service.post.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,14 +48,18 @@ public class PostController {
         }
     }
 
-    @Operation(summary = "Get All Posts", description = "Retrieves all posts with pagination")
+    @Operation(summary = "Get All Posts", description = "Retrieves all posts")
     @GetMapping("/posts/all-posts")
-    public Page<PostResponse> getAllPosts(
-            @RequestParam(defaultValue = "0") Integer pageNumber,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(required = false) String sort) {
-        return postService.getAllPosts(pageNumber, pageSize, sort);
+    public ResponseEntity<List<PostResponse>> getAllPosts(@RequestParam(required = false) String sort) {
+        try {
+            List<PostResponse> posts = postService.getAllPosts(sort);
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+
 
     @Operation(summary = "Get Post By ID", description = "Retrieves a post by its ID")
     @GetMapping("/posts/post/{postId}")
