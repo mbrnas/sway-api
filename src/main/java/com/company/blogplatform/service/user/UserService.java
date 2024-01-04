@@ -11,6 +11,8 @@ public interface UserService extends UserDetailsService {
 
     User getUserById(Long id) throws UserNotFoundException;
 
+    User findByUsername(String username);
+
     User addUser(User user);
 
     User updateUser(User user, Long userId) throws UserNotFoundException;

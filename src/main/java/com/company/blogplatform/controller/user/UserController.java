@@ -32,6 +32,17 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Get user ID by username", description = "Retrieve user ID by username")
+    @GetMapping("/users/user-id-by-username/{username}")
+    public ResponseEntity<Long> getUserIdByUsername(@PathVariable String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Invalid username");
+        } else {
+            Long userId = userService.findByUsername(username).getId();
+            return new ResponseEntity<>(userId, HttpStatus.OK);
+        }
+    }
+
     @Operation(summary = "Get All Users", description = "Retrieves all users with pagination")
     @GetMapping("/users")
     public Page<User> getAllUsers(
