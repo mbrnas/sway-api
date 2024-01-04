@@ -52,6 +52,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User by username " + username + " was not found"));
+    }
+
+    @Override
     public User addUser(User user) {
         if (user == null) {
             throw new IllegalArgumentException("Invalid user data");
