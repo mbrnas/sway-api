@@ -11,18 +11,58 @@
       "item": [
         {
           "name": "All Posts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var template = `",
+                  "<style type=\"text/css\">",
+                  "    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+                  "    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+                  "    .tftable tr {background-color:#ffffff;}",
+                  "    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+                  "    .tftable tr:hover {background-color:#e0ffff;}",
+                  "</style>",
+                  "",
+                  "<table class=\"tftable\" border=\"1\">",
+                  "    <tr>",
+                  "        <th>ID</th>",
+                  "        <th>Title</th>",
+                  "        <th>Date Posted</th>",
+                  "        <th>Likes</th>",
+                  "        <th>Dislikes</th>",
+                  "    </tr>",
+                  "    ",
+                  "    {{#each response.content}}",
+                  "        <tr>",
+                  "            <td>{{id}}</td>",
+                  "            <td>{{title}}</td>",
+                  "            <td>{{datePosted}}</td>",
+                  "            <td>{{likes}}</td>",
+                  "            <td>{{dislikes}}</td>",
+                  "        </tr>",
+                  "    {{/each}}",
+                  "</table>",
+                  "`;",
+                  "",
+                  "function constructVisualizerPayload() {",
+                  "    return { response: pm.response.json() };",
+                  "}",
+                  "",
+                  "pm.visualizer.set(template, constructVisualizerPayload());"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "auth": {
-              "type": "basic",
-              "basic": [
+              "type": "bearer",
+              "bearer": [
                 {
-                  "key": "password",
-                  "value": "5699470e-3046-4622-b76c-492093cd5ddf",
-                  "type": "string"
-                },
-                {
-                  "key": "username",
-                  "value": "user",
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb3NpcGFsaXNhYyIsImlhdCI6MTcwMzE3MTc4MCwiZXhwIjoxNzAzMTczMjIwfQ.eh8RAEDKOWQzzupAP-XWbxYxAe4_TfO1VYFtXx3y64M",
                   "type": "string"
                 }
               ]
@@ -30,22 +70,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{basePathPosts}}/all-posts?pageNumber=0&pageSize=10",
+              "raw": "{{basePathPosts}}/posts/all-posts",
               "host": [
                 "{{basePathPosts}}"
               ],
               "path": [
+                "posts",
                 "all-posts"
-              ],
-              "query": [
-                {
-                  "key": "pageNumber",
-                  "value": "0"
-                },
-                {
-                  "key": "pageSize",
-                  "value": "10"
-                }
               ]
             }
           },
@@ -54,14 +85,25 @@
         {
           "name": "A Post",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb3NpcGFsaXNpY2ExMCIsImlhdCI6MTcwMzEwNDk4NiwiZXhwIjoxNzAzMTA2NDI2fQ.g_z_bSfMsuPvzQOv9kVByg1_ffeCqFxVYoskrrP7ivU",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{basePathPosts}}/post/1",
+              "raw": "{{basePathPosts}}/posts/post/1",
               "host": [
                 "{{basePathPosts}}"
               ],
               "path": [
+                "posts",
                 "post",
                 "1"
               ]
@@ -72,11 +114,28 @@
         {
           "name": "Create Post",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb3NpcGFsaXNhYyIsImlhdCI6MTcwMzE3MTc4MCwiZXhwIjoxNzAzMTczMjIwfQ.eh8RAEDKOWQzzupAP-XWbxYxAe4_TfO1VYFtXx3y64M",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Ruby's second post!\",\n  \"content\": \"I would like to travel to Paris.\"\n}\n",
+              "raw": "{\n  \"title\": \"This is my first post!\",\n  \"content\": \"I am Aleksander and I like Java.\"\n}\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -84,13 +143,14 @@
               }
             },
             "url": {
-              "raw": "{{basePathPosts}}/create-post/20/3",
+              "raw": "{{basePathPosts}}/posts/create-post/2/3",
               "host": [
                 "{{basePathPosts}}"
               ],
               "path": [
+                "posts",
                 "create-post",
-                "20",
+                "2",
                 "3"
               ]
             }
@@ -100,11 +160,21 @@
         {
           "name": "Update Post",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGVrc2FuZGVyamF2YTEwIiwiaWF0IjoxNzAxNzI3NjAyLCJleHAiOjE3MDE3MjkwNDJ9.ZSW4hQXfdn5WXFzhGXENlYJfARa9cMF-SND3vuENITM",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "PUT",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Updated Blog Post Title\",\n  \"content\": \"I am not feeling good today\"\n}\n",
+              "raw": "{\n  \"title\": \"I like this website\",\n  \"content\": \"This seems like a really nice website\"\n}\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -112,22 +182,23 @@
               }
             },
             "url": {
-              "raw": "{{basePathPosts}}/update-post/2?userId=2&categoryId=3",
+              "raw": "{{basePathPosts}}/posts/update-post/1?userId=44&categoryId=1",
               "host": [
                 "{{basePathPosts}}"
               ],
               "path": [
+                "posts",
                 "update-post",
-                "2"
+                "1"
               ],
               "query": [
                 {
                   "key": "userId",
-                  "value": "2"
+                  "value": "44"
                 },
                 {
                   "key": "categoryId",
-                  "value": "3"
+                  "value": "1"
                 }
               ]
             }
@@ -149,11 +220,12 @@
               }
             },
             "url": {
-              "raw": "{{basePathPosts}}/delete-post/3",
+              "raw": "{{basePathPosts}}/posts/delete-post/3",
               "host": [
                 "{{basePathPosts}}"
               ],
               "path": [
+                "posts",
                 "delete-post",
                 "3"
               ]
@@ -170,17 +242,24 @@
           "name": "All Users",
           "request": {
             "auth": {
-              "type": "bearer"
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwMTcyNDg1MywiZXhwIjoxNzAxNzI2MjkzfQ.YvBqOREIwOJEdxs9rAS0gm3Z-MxDa4W76SuiEdsRhtE",
+                  "type": "string"
+                }
+              ]
             },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{basePathUsers}}/all?pageNumber=0&pageSize=5",
+              "raw": "{{basePathUsers}}/users?pageNumber=0&pageSize=5",
               "host": [
                 "{{basePathUsers}}"
               ],
               "path": [
-                "all"
+                "users"
               ],
               "query": [
                 {
@@ -197,16 +276,56 @@
           "response": []
         },
         {
-          "name": "A User",
+          "name": "User ID",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwNDQwNzIxMiwiZXhwIjoxNzA0NDA4NjUyfQ.W_e3eSu6uPeeUGScoddJGOjznunr4G-_ijyeI0hfbY0",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{basePathUsers}}/user/5",
+              "raw": "{{basePathUsers}}/users/user-id-by-username/bnewcome1",
               "host": [
                 "{{basePathUsers}}"
               ],
               "path": [
+                "users",
+                "user-id-by-username",
+                "bnewcome1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "A User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwMTcyNDg1MywiZXhwIjoxNzAxNzI2MjkzfQ.YvBqOREIwOJEdxs9rAS0gm3Z-MxDa4W76SuiEdsRhtE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{basePathUsers}}/users/user/5",
+              "host": [
+                "{{basePathUsers}}"
+              ],
+              "path": [
+                "users",
                 "user",
                 "5"
               ]
@@ -299,6 +418,65 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "http://localhost:8080/users",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "http://localhost:8080/users",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -308,6 +486,16 @@
         {
           "name": "All Comments",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb3NpcGFsaXNpY2ExMCIsImlhdCI6MTcwMzEwNDU4MywiZXhwIjoxNzAzMTA2MDIzfQ.gPj7HxprHVji49sVB9VxNFe3V6YwYXGS9bps0uabW9c",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -335,16 +523,26 @@
         {
           "name": "A Comment",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb3NpcGFsaXNpY2ExMCIsImlhdCI6MTcwMzEwNDk4NiwiZXhwIjoxNzAzMTA2NDI2fQ.g_z_bSfMsuPvzQOv9kVByg1_ffeCqFxVYoskrrP7ivU",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{basePathComments}}/comment/2",
+              "raw": "{{basePathComments}}/comment/1",
               "host": [
                 "{{basePathComments}}"
               ],
               "path": [
                 "comment",
-                "2"
+                "1"
               ]
             }
           },
@@ -515,7 +713,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwMTU2MzMzNywiZXhwIjoxNzAxNTY0Nzc3fQ.etgslBz-pmCmrAAKaOfGBxQfBJJhT-iy7PQfJIJ1Lww",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrcmlzdGluYXByb2YiLCJpYXQiOjE3MDE1NjQ3OTMsImV4cCI6MTcwMTU2NjIzM30.jS9S9IJn-m96H6rN1znSFFvvLdi6xebx4cdAtH-Xb3Q",
                   "type": "string"
                 }
               ]
@@ -558,7 +756,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwMTU2MzA5NiwiZXhwIjoxNzAxNTY0NTM2fQ.nA9BNyFKMErHV6QqXOI2YkI4yZ-_ssXnticGbN2ViPs",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwMTU2NDc2NSwiZXhwIjoxNzAxNTY2MjA1fQ.L1GG3YTa4ui0eDRKG0ELtd-bLbEAdQUJrgUYHehg_3k",
                   "type": "string"
                 }
               ]
@@ -597,7 +795,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"firstName\": \"Kristina\",\n    \"lastName\": \"Marasovic\",\n    \"email\": \"kristina@mail.com\",\n    \"username\": \"kristinaprof\",\n    \"password\": \"netbeans\"\n}",
+              "raw": "{\n    \"firstName\": \"Josipa\",\n    \"lastName\": \"Lisac\",\n    \"email\": \"laks.srakane@mail.com\",\n    \"username\": \"josipalisac\",\n    \"password\": \"ilovemiami\"\n}   ",
               "options": {
                 "raw": {
                   "language": "json"
@@ -623,6 +821,42 @@
         },
         {
           "name": "Sign In",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var template = `",
+                  "<style type=\"text/css\">",
+                  "    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+                  "    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+                  "    .tftable tr {background-color:#ffffff;}",
+                  "    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+                  "    .tftable tr:hover {background-color:#e0ffff;}",
+                  "</style>",
+                  "",
+                  "<table class=\"tftable\" border=\"1\">",
+                  "    <tr>",
+                  "        <th>Token</th>",
+                  "        <th>Refresh Token</th>",
+                  "    </tr>",
+                  "    <tr>",
+                  "        <td>{{response.token}}</td>",
+                  "        <td>{{response.refreshToken}}</td>",
+                  "    </tr>",
+                  "</table>",
+                  "`;",
+                  "",
+                  "function constructVisualizerPayload() {",
+                  "  return {response: pm.response.json()}",
+                  "}",
+                  "",
+                  "pm.visualizer.set(template, constructVisualizerPayload());"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -631,7 +865,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}",
+              "raw": "{\n    \"username\": \"josipalisac\",\n    \"password\": \"ilovemiami\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -681,12 +915,12 @@
   "variable": [
     {
       "key": "basePathPosts",
-      "value": "http://localhost:8080/api/v1/posts",
+      "value": "http://localhost:8080/api/v1/user",
       "type": "string"
     },
     {
       "key": "basePathUsers",
-      "value": "http://localhost:8080/api/v1/users",
+      "value": "http://localhost:8080/api/v1/admin",
       "type": "string"
     },
     {
