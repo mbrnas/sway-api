@@ -39,9 +39,3 @@ The Blog Platform is a Java-based web application designed for creating, updatin
 1. **Prerequisites**: Java and PostgreSQL installed.
 2. **Database Setup**: Configure PostgreSQL database as per `application.yml`.
 3. **Running the App**: Execute `BlogPlatformApplication.java` to start the application.
-
-## API Endpoints
-
-### Post Management
-- **Create Post**: `POST /api/v1/posts/create-post/{userId}/{categoryId}`
-- **Update Post**: `PUT /api/v1/posts/update-post/{postId}`
