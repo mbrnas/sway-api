@@ -1,6 +1,7 @@
 package com.company.blogplatform.jwtservice.impl;
 
 import com.company.blogplatform.jwtservice.JWTService;
+import com.company.blogplatform.model.users.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,12 +18,18 @@ import java.util.function.Function;
 @Service
 public class JWTServiceImpl implements JWTService {
     public String generateToken(UserDetails userDetails) {
-        return Jwts.builder().setSubject(userDetails.getUsername())
+        User user = (User) userDetails; // Cast to your User class
+        Long userId = user.getId(); // Get user ID
+
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .claim("userId", userId) // Add user ID as a claim
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getSigninKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
 
     public String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
@@ -58,5 +65,11 @@ public class JWTServiceImpl implements JWTService {
     private boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
+
+    public Long extractUserId(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("userId", Long.class); // Extract the user ID
+    }
+
 
 }
